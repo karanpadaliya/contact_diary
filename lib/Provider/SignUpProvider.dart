@@ -3,22 +3,41 @@ import 'package:flutter/material.dart';
 class SignUpProvider extends ChangeNotifier {
   String? userName;
   int? userMobileNo;
-  int? userPin;
+  String? userPin;
 
-  void setUserDetails(String name,int mobile,int pin) {
+  void setUserDetails(String name, int mobile, String pin) {
     userName = name;
     userMobileNo = mobile;
     userPin = pin;
     notifyListeners(); // Notify listeners of the change
   }
 
+  void setUserName(String name) {
+    userName = name;
+    notifyListeners(); // Notify listeners of the change
+  }
 
-// SignUpProvider({this.userName, this.userMobileNo, this.userPin});
-//
-// factory SignUpProvider.fromJson(Map<String, dynamic> json) {
-//   return SignUpProvider(
-//     userName: json['userName'],
-//     userMobileNo: json['userMobileNo'],
-//     userPin: json['userPin'],
-//   );
+  void setMobileNo(int mobileNo) {
+    userMobileNo = mobileNo;
+    notifyListeners(); // Notify listeners of the change
+  }
+
+  void setPin(String pin) {
+    userPin = pin;
+    notifyListeners(); // Notify listeners of the change
+  }
+
+  // void goLogin (int mobile, String pin){
+  //   int isMobileNo = mobile;
+  //   String isPin = pin;
+  //
+  //   if(userMobileNo == isMobileNo || userPin == isPin){
+  //       print("Loginnnn");
+  //       // Navigator.pushNamed(context as BuildContext, "HomePage");
+  //   }
+  //   else{
+  //     print("Login Failed");
+  //   }
+  //   return ;
+  // }
 }

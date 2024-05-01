@@ -1,8 +1,10 @@
+import 'package:contact_diary/Provider/SignUpProvider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'dart:ui';
 
 import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
 
 class SignIn extends StatefulWidget {
   const SignIn({Key? key});
@@ -19,6 +21,9 @@ class _SignInState extends State<SignIn> {
 
   @override
   Widget build(BuildContext context) {
+    TextEditingController MobileController = TextEditingController();
+    TextEditingController PinController = TextEditingController();
+
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: Stack(
@@ -91,6 +96,7 @@ class _SignInState extends State<SignIn> {
                     height: 13,
                   ),
                   TextFormField(
+                    controller: MobileController,
                     keyboardType: TextInputType.number,
                     textInputAction: TextInputAction.next,
                     maxLength: 10,
@@ -111,6 +117,7 @@ class _SignInState extends State<SignIn> {
                     height: 8,
                   ),
                   TextFormField(
+                    controller: PinController,
                     keyboardType: TextInputType.number,
                     textInputAction: TextInputAction.done,
                     maxLength: 4,
@@ -140,31 +147,51 @@ class _SignInState extends State<SignIn> {
                   SizedBox(
                     height: 10,
                   ),
-                  FilledButton(
-                    style: ButtonStyle(
-                      elevation: MaterialStatePropertyAll(10),
-                      backgroundColor:
-                          MaterialStatePropertyAll(CupertinoColors.link),
-                    ),
-                    onPressed: () {},
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        SizedBox(
-                          width: 4,
+                  Consumer<SignUpProvider>(
+                    builder: (BuildContext context, value, Widget? child) {
+                      return FilledButton(
+                        style: ButtonStyle(
+                          elevation: MaterialStatePropertyAll(10),
+                          backgroundColor:
+                              MaterialStatePropertyAll(CupertinoColors.link),
                         ),
-                        Text(
-                          "LogIn",
-                          style: TextStyle(
-                            fontSize: 16,
-                          ),
+                        onPressed: () {
+                          String mobile = MobileController.text;
+                          int Mobile = int.parse(mobile).toInt();
+
+                          String pin = PinController.text;
+
+                          // Provider.of<SignUpProvider>(context, listen: false)
+                          //     .goLogin(Mobile, pin);
+                          if (value.userMobileNo == Mobile &&
+                              value.userPin == pin) {
+                            Navigator.pushNamed(context, "HomePage");
+                          }else{
+                            print("Invaild======================================>");
+                          }
+
+                          // Navigator.pushNamed(context, "HomePage");
+                        },
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            SizedBox(
+                              width: 4,
+                            ),
+                            Text(
+                              "LogIn",
+                              style: TextStyle(
+                                fontSize: 16,
+                              ),
+                            ),
+                            SizedBox(
+                              width: 4,
+                            ),
+                            Icon(Icons.login),
+                          ],
                         ),
-                        SizedBox(
-                          width: 4,
-                        ),
-                        Icon(Icons.login),
-                      ],
-                    ),
+                      );
+                    },
                   ),
                   SizedBox(
                     height: 20,

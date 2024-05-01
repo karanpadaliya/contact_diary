@@ -48,8 +48,9 @@ class _HomePageState extends State<HomePage> {
                       return Text(
                         '${value.userName ?? "No name"}',
                         style: TextStyle(
-                          fontSize: 17,
+                          fontSize: 19,
                           color: Colors.white,
+                          fontFamily: "Sedan",
                         ),
                       );
                     },
@@ -67,7 +68,7 @@ class _HomePageState extends State<HomePage> {
                 ),
               ),
               onTap: () {
-                // Add your logic here
+                Navigator.pushNamed(context, "ProfilePage");
               },
             ),
             ListTile(

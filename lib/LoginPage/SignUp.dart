@@ -156,11 +156,11 @@ class _SignInState extends State<SignUp> {
                       int mobileNo = int.parse(MobileNo).toInt();
 
                       String Pin = UserPinController.text;
-                      int pin = int.parse(Pin).toInt();
 
                       Provider.of<SignUpProvider>(context, listen: false)
-                          .setUserDetails(userName, mobileNo, pin);
-                      Navigator.pushNamed(context, "HomePage");
+                          .setUserDetails(userName, mobileNo, Pin);
+                      // Navigator.pushNamed(context, "HomePage");
+                      
                     },
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -189,7 +189,9 @@ class _SignInState extends State<SignUp> {
                     children: [
                       Text("Have Account ?"),
                       TextButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.pushNamed(context, "SignIn");
+                        },
                         child: Text("Login"),
                       ),
                       Padding(
