@@ -17,13 +17,17 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Consumer<SignUpProvider>(
-          builder: (BuildContext context, value, Widget? child) {
-            return Text('Welcome! ${value.userName ?? "No name"}');
-          },
-        ),
+        title: Text('Home Page'),
         backgroundColor: CupertinoColors.link,
         foregroundColor: CupertinoColors.systemGroupedBackground,
+        actions: [
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: CircleAvatar(
+              child: Text("KP"),
+            ),
+          ),
+        ],
       ),
       drawer: Drawer(
         child: ListView(
@@ -81,93 +85,52 @@ class _HomePageState extends State<HomePage> {
           ],
         ),
       ),
-      body: Align(
-        alignment: Alignment.bottomCenter,
-        child: Container(
-          height: 60,
-          width: 270,
-          padding: EdgeInsets.all(10),
-          decoration: BoxDecoration(
-            color: CupertinoColors.link,
-            borderRadius: BorderRadius.circular(20),
-          ),
-          child: Column(
-            // crossAxisAlignment: CrossAxisAlignment.start,
-            // mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Row(
+      body: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Consumer<SignUpProvider>(
+          builder: (BuildContext context, value, Widget? child) {
+            return RichText(
+              text: TextSpan(
                 children: [
-                  Icon(
-                    Icons.home,
-                    size: 35,
-                    color: Colors.white,
-                  ),
-                  SizedBox(
-                    width: 10,
-                  ),
-                  Container(
-                    height: 40,
-                    child: VerticalDivider(
-                      thickness: 1,
-                      color: Colors.white,
+                  TextSpan(
+                    text: "Welcome!!",
+                    style: titleStyle(
+                      fSize: 20.00,
                     ),
                   ),
-                  SizedBox(
-                    width: 10,
-                  ),
-                  Icon(
-                    Icons.home,
-                    size: 35,
-                    color: Colors.white,
-                  ),
-                  SizedBox(
-                    width: 10,
-                  ),
-                  Container(
-                    height: 40,
-                    child: VerticalDivider(
-                      thickness: 1,
-                      color: Colors.white,
+                  TextSpan(
+                    text: "\n${value.userName ?? "No name"}",
+                    style: titleStyle(
+                      fSize: 30.0,
+                      fFamily: "Roboto",
                     ),
-                  ),
-                  SizedBox(
-                    width: 10,
-                  ),
-                  Icon(
-                    Icons.favorite,
-                    size: 35,
-                    color: Colors.white,
-                  ),
-                  SizedBox(
-                    width: 10,
-                  ),
-                  Container(
-                    height: 40,
-                    child: VerticalDivider(
-                      thickness: 1,
-                      color: Colors.white,
-                    ),
-                  ),
-                  SizedBox(
-                    width: 10,
-                  ),
-                  Icon(
-                    Icons.person_add_alt_1_rounded,
-                    size: 35,
-                    color: Colors.white,
                   ),
                 ],
               ),
-            ],
-          ),
+            );
+          },
         ),
       ),
-      // floatingActionButton: FloatingActionButton(
-      //   onPressed: (){},
-      //   backgroundColor: CupertinoColors.link,
-      //   foregroundColor: CupertinoColors.systemGroupedBackground,
-      //   child: Icon(Icons.person_add_alt_1),
-      // ),
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: CupertinoColors.link,
+        foregroundColor: CupertinoColors.white,
+        child: Icon(CupertinoIcons.person_badge_plus_fill),
+        onPressed: (){
+          Navigator.pushNamed(context, "AddContact");
+        },
+      ),
+    );
+  }
+
+  TextStyle titleStyle(
+      {color, fSize, fWeight, wordSpace, fFamily, letterSpace}) {
+    return TextStyle(
+      color: Colors.black,
+      fontSize: fSize,
+      fontWeight: fWeight,
+      wordSpacing: wordSpace,
+      fontFamily: fFamily,
+      letterSpacing: letterSpace,
     );
   }
 }

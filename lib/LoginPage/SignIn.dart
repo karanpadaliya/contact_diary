@@ -24,6 +24,7 @@ class _SignInState extends State<SignIn> {
     TextEditingController MobileController = TextEditingController();
     TextEditingController PinController = TextEditingController();
 
+    bool isInvalidCredentials = false;
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: Stack(
@@ -103,13 +104,20 @@ class _SignInState extends State<SignIn> {
                     // maxLengthEnforcement: MaxLengthEnforcement.none,
                     decoration: InputDecoration(
                       label: Text("Mobile No"),
-                      counterText: '', // use is not visible maxLength in UI
+                      counterText: '',
+                      // use is not visible maxLength in UI
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(20),
                       ),
                       focusedBorder: OutlineInputBorder(
                         borderSide: BorderSide(color: CupertinoColors.black),
                         borderRadius: BorderRadius.circular(20),
+                      ),
+                      focusedErrorBorder: OutlineInputBorder(
+                        borderSide: BorderSide(
+                            color: isInvalidCredentials
+                                ? Colors.red
+                                : CupertinoColors.black),
                       ),
                     ),
                   ),
@@ -142,6 +150,12 @@ class _SignInState extends State<SignIn> {
                         borderSide: BorderSide(color: CupertinoColors.black),
                         borderRadius: BorderRadius.circular(20),
                       ),
+                      focusedErrorBorder: OutlineInputBorder(
+                        borderSide: BorderSide(
+                            color: isInvalidCredentials
+                                ? Colors.red
+                                : CupertinoColors.black),
+                      ),
                     ),
                   ),
                   SizedBox(
@@ -157,20 +171,29 @@ class _SignInState extends State<SignIn> {
                         ),
                         onPressed: () {
                           String mobile = MobileController.text;
-                          int Mobile = int.parse(mobile).toInt();
-
                           String pin = PinController.text;
 
-                          // Provider.of<SignUpProvider>(context, listen: false)
-                          //     .goLogin(Mobile, pin);
-                          if (value.userMobileNo == Mobile &&
-                              value.userPin == pin) {
-                            Navigator.pushNamed(context, "HomePage");
-                          }else{
-                            print("Invaild======================================>");
+                          if (mobile.isEmpty || pin.isEmpty) {
+                            // Show error message if any field is empty
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                content: Text('All fields are required'),
+                              ),
+                            );
+                          } else {
+                            int mobileInt = int.parse(mobile);
+                            if (value.userMobileNo == mobileInt &&
+                                value.userPin == pin) {
+                              Navigator.pushNamed(context, "HomePage");
+                            } else {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content: Text('Invalid credentials'),
+                                ),
+                              );
+                              // print("Invalid credentials");
+                            }
                           }
-
-                          // Navigator.pushNamed(context, "HomePage");
                         },
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,

@@ -149,18 +149,36 @@ class _SignInState extends State<SignUp> {
                           MaterialStatePropertyAll(CupertinoColors.link),
                     ),
                     onPressed: () {
-                      // var intVal = int.tryParse(text);
                       String userName = UserNameController.text;
+                      String mobileNo = UserMobileNoController.text;
+                      String pin = UserPinController.text;
 
-                      String MobileNo = UserMobileNoController.text;
-                      int mobileNo = int.parse(MobileNo).toInt();
+                      if (userName.isEmpty || mobileNo.isEmpty || pin.isEmpty) {
+                        // Show error message if any field is empty
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: Text('All fields are required'),
+                          ),
+                        );
+                      } else {
+                        int mobileNoInt =
+                            int.tryParse(mobileNo) ?? 0; // Handle invalid input
+                        Provider.of<SignUpProvider>(context, listen: false)
+                            .setUserDetails(userName, mobileNoInt, pin);
+                        Navigator.pushNamed(context, "SignIn");
+                      }
 
-                      String Pin = UserPinController.text;
-
-                      Provider.of<SignUpProvider>(context, listen: false)
-                          .setUserDetails(userName, mobileNo, Pin);
-                      // Navigator.pushNamed(context, "HomePage");
-                      
+                      // // var intVal = int.tryParse(text);
+                      // String userName = UserNameController.text;
+                      //
+                      // String MobileNo = UserMobileNoController.text;
+                      // int mobileNo = int.parse(MobileNo).toInt();
+                      //
+                      // String Pin = UserPinController.text;
+                      //
+                      // Provider.of<SignUpProvider>(context, listen: false)
+                      //     .setUserDetails(userName, mobileNo, Pin);
+                      // // Navigator.pushNamed(context, "HomePage");
                     },
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
