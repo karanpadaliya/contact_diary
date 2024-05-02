@@ -5,6 +5,7 @@ import 'package:contact_diary/Provider/SignUpProvider.dart';
 import 'package:contact_diary/screen/addContact.dart';
 import 'package:contact_diary/screen/homePage.dart';
 import 'package:contact_diary/screen/splashScreen.dart';
+import 'package:contact_diary/screen/viewCotact.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -42,6 +43,7 @@ class _MainPageState extends State<MainPage> {
           "SignUp": (context) => SignUp(),
           "ProfilePage": (context) => ProfilePage(),
           "AddContact": (context) => AddContact(),
+          "ViewContact": (context) => ViewContact(),
           // "invoice": (context) => AddInvoice(),
         },
         onUnknownRoute: (settings) {

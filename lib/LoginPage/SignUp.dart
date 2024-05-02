@@ -165,7 +165,7 @@ class _SignInState extends State<SignUp> {
                             int.tryParse(mobileNo) ?? 0; // Handle invalid input
                         Provider.of<SignUpProvider>(context, listen: false)
                             .setUserDetails(userName, mobileNoInt, pin);
-                        Navigator.pushNamed(context, "SignIn");
+                        Navigator.pushReplacementNamed(context, "SignIn");
                       }
 
                       // // var intVal = int.tryParse(text);

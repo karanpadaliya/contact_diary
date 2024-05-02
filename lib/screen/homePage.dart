@@ -24,7 +24,7 @@ class _HomePageState extends State<HomePage> {
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: CircleAvatar(
-              child: Text("KP"),
+              child: Text("K"),
             ),
           ),
         ],
@@ -85,37 +85,47 @@ class _HomePageState extends State<HomePage> {
           ],
         ),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Consumer<SignUpProvider>(
-          builder: (BuildContext context, value, Widget? child) {
-            return RichText(
-              text: TextSpan(
-                children: [
-                  TextSpan(
-                    text: "Welcome!!",
-                    style: titleStyle(
-                      fSize: 20.00,
-                    ),
+      body: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Consumer<SignUpProvider>(
+              builder: (BuildContext context, value, Widget? child) {
+                return RichText(
+                  text: TextSpan(
+                    children: [
+                      TextSpan(
+                        text: "Welcome!!",
+                        style: titleStyle(
+                          fSize: 20.00,
+                        ),
+                      ),
+                      TextSpan(
+                        text: "\n${value.userName ?? "No name"}",
+                        style: titleStyle(
+                          fSize: 30.0,
+                          fFamily: "Roboto",
+                        ),
+                      ),
+                    ],
                   ),
-                  TextSpan(
-                    text: "\n${value.userName ?? "No name"}",
-                    style: titleStyle(
-                      fSize: 30.0,
-                      fFamily: "Roboto",
-                    ),
-                  ),
-                ],
-              ),
-            );
-          },
-        ),
+                );
+              },
+            ),
+          ),
+          ElevatedButton(
+            onPressed: () {
+              Navigator.pushNamed(context, "ViewContact");
+            },
+            child: Icon(CupertinoIcons.rectangle_stack_person_crop_fill),
+          ),
+        ],
       ),
       floatingActionButton: FloatingActionButton(
         backgroundColor: CupertinoColors.link,
         foregroundColor: CupertinoColors.white,
         child: Icon(CupertinoIcons.person_badge_plus_fill),
-        onPressed: (){
+        onPressed: () {
           Navigator.pushNamed(context, "AddContact");
         },
       ),
