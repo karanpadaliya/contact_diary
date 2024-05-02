@@ -5,7 +5,9 @@ import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 
 class AddContact extends StatefulWidget {
-  const AddContact({Key? key}) : super(key: key);
+  int? index;
+
+  AddContact({Key? key, this.index}) : super(key: key);
 
   @override
   State<AddContact> createState() => _AddContactState();
@@ -16,8 +18,32 @@ class _AddContactState extends State<AddContact> {
   TextEditingController contactEmailController = TextEditingController();
   TextEditingController contactMobileNoController = TextEditingController();
   TextEditingController birthDateController = TextEditingController();
+  TextEditingController addressController = TextEditingController();
+  TextEditingController officeNameController = TextEditingController();
+  TextEditingController officeAddressController = TextEditingController();
+  TextEditingController websiteController = TextEditingController();
+  TextEditingController personalNotesController = TextEditingController();
+  TextEditingController officialNotesController = TextEditingController();
 
   int currentStep = 0;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (widget.index != null) {
+      var ContactName = Provider.of<ContactProvider>(context, listen: false)
+              .contactList[widget.index!]
+              .Contact_name ??
+          "Contact_name_NotFound";
+      contactNameController.text = ContactName;
+
+      var ContactEmail = Provider.of<ContactProvider>(context, listen: false)
+          .contactList[widget.index!]
+          .Contact_email ??
+          "Contact_Email_NotFound";
+      contactNameController.text = ContactEmail;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +51,7 @@ class _AddContactState extends State<AddContact> {
       appBar: AppBar(
         backgroundColor: CupertinoColors.link,
         foregroundColor: CupertinoColors.white,
-        title: Text("Add Contact Details"),
+        title: Text(widget.index !=null ? "Edit Page" : "AddPage"),
       ),
       body: SingleChildScrollView(
         physics: BouncingScrollPhysics(),
@@ -49,13 +75,36 @@ class _AddContactState extends State<AddContact> {
               steps: getSteps(),
               currentStep: currentStep,
               onStepContinue: () {
-                String name = contactNameController.text;
-                String email = contactEmailController.text;
-                String mobileNo = contactMobileNoController.text;
+                if (currentStep == 0) {
+                  String name = contactNameController.text;
+                  String email = contactEmailController.text;
+                  String mobileNo = contactMobileNoController.text;
 
-                Provider.of<ContactProvider>(context, listen: false)
-                    .addContact(name, email, mobileNo);
-                // final isLastStep = currentStep == getSteps().length - 1;
+                  Provider.of<ContactProvider>(context, listen: false)
+                      .setContactDetails(name, email, mobileNo);
+                } else if (currentStep == 1) {
+                  String birthDate = birthDateController.text;
+                  String address = addressController.text;
+
+                  Provider.of<ContactProvider>(context, listen: false)
+                      .setPersonalDetails(birthDate, address);
+                } else if (currentStep == 2) {
+                  String? officeName = officeNameController.text;
+                  String? officeAddress = officeAddressController.text;
+                  String? website = websiteController.text;
+
+                  Provider.of<ContactProvider>(context, listen: false)
+                      .setOfficialDetails(officeName, officeAddress, website);
+                } else if (currentStep == 3) {
+                  String personalNotes = personalNotesController
+                      .text; // Assuming you have a controller for personal notes
+                  String officialNotes = officialNotesController
+                      .text; // Assuming you have a controller for official notes
+
+                  Provider.of<ContactProvider>(context, listen: false)
+                      .setNotes(personalNotes, officialNotes);
+                }
+
                 if (currentStep < 3) {
                   setState(() {
                     currentStep += 1;
@@ -77,163 +126,163 @@ class _AddContactState extends State<AddContact> {
   }
 
   List<Step> getSteps() => [
-    // Contact Details
-    Step(
-      // state: StepState.complete,
-      isActive: currentStep >= 0,
-      title: Text("Contact Details"),
-      content: Container(
-        child: Column(
-          children: [
-            // Name
-            TextFormField(
-              controller: contactNameController,
-              keyboardType: TextInputType.name,
-              textInputAction: TextInputAction.next,
-              decoration: InputDecoration(
-                labelText: "Name",
-              ),
+        // Contact Details
+        Step(
+          // state: StepState.complete,
+          isActive: currentStep >= 0,
+          title: Text("Contact Details"),
+          content: Container(
+            child: Column(
+              children: [
+                // Name
+                TextFormField(
+                  controller: contactNameController,
+                  keyboardType: TextInputType.name,
+                  textInputAction: TextInputAction.next,
+                  decoration: InputDecoration(
+                    labelText: "Name",
+                  ),
+                ),
+                // Email
+                TextFormField(
+                  controller: contactEmailController,
+                  keyboardType: TextInputType.emailAddress,
+                  textInputAction: TextInputAction.next,
+                  maxLength: 40,
+                  decoration: InputDecoration(
+                    labelText: "Email Id",
+                    counterText: '',
+                  ),
+                ),
+                // MobileNO
+                TextFormField(
+                  controller: contactMobileNoController,
+                  keyboardType: TextInputType.number,
+                  maxLength: 10,
+                  decoration: InputDecoration(
+                    labelText: "Mobile No",
+                    counterText: '',
+                  ),
+                ),
+              ],
             ),
-            // Email
-            TextFormField(
-              controller: contactEmailController,
-              keyboardType: TextInputType.emailAddress,
-              textInputAction: TextInputAction.next,
-              maxLength: 40,
-              decoration: InputDecoration(
-                labelText: "Email Id",
-                counterText: '',
-              ),
-            ),
-            // MobileNO
-            TextFormField(
-              controller: contactMobileNoController,
-              keyboardType: TextInputType.number,
-              maxLength: 10,
-              decoration: InputDecoration(
-                labelText: "Mobile No",
-                counterText: '',
-              ),
-            ),
-          ],
+          ),
         ),
-      ),
-    ),
-    // Personal Details
-    Step(
-      isActive: currentStep >= 1,
-      title: Text("Personal Details"),
-      content: Container(
-        child: Column(
-          children: [
-            // BirthDate
-            TextFormField(
-              controller: birthDateController,
-              keyboardType: TextInputType.datetime,
-              textInputAction: TextInputAction.next,
-              maxLength: 8,
-              readOnly: true,
-              onTap: () {
-                _selectDate(context);
-              },
-              decoration: InputDecoration(
-                labelText: "BirthDate",
-                counterText: '',
-                suffixIcon: Icon(Icons.calendar_today),
-              ),
+        // Personal Details
+        Step(
+          isActive: currentStep >= 1,
+          title: Text("Personal Details"),
+          content: Container(
+            child: Column(
+              children: [
+                // BirthDate
+                TextFormField(
+                  controller: birthDateController,
+                  keyboardType: TextInputType.datetime,
+                  textInputAction: TextInputAction.next,
+                  maxLength: 8,
+                  readOnly: true,
+                  onTap: () {
+                    _selectDate(context);
+                  },
+                  decoration: InputDecoration(
+                    labelText: "BirthDate",
+                    counterText: '',
+                    suffixIcon: Icon(Icons.calendar_today),
+                  ),
+                ),
+                // Address
+                TextFormField(
+                  keyboardType: TextInputType.streetAddress,
+                  textInputAction: TextInputAction.next,
+                  maxLength: 40,
+                  maxLines: 2,
+                  decoration: InputDecoration(
+                    labelText: "Address (Optional)",
+                    counterText: '',
+                  ),
+                ),
+              ],
             ),
-            // Address
-            TextFormField(
-              keyboardType: TextInputType.streetAddress,
-              textInputAction: TextInputAction.next,
-              maxLength: 40,
-              maxLines: 2,
-              decoration: InputDecoration(
-                labelText: "Address (Optional)",
-                counterText: '',
-              ),
-            ),
-          ],
+          ),
         ),
-      ),
-    ),
-    // Official Details
-    Step(
-      isActive: currentStep >= 2,
-      title: Text("Official Details"),
-      content: Container(
-        child: Column(
-          children: [
-            // Office Name
-            TextFormField(
-              keyboardType: TextInputType.text,
-              textInputAction: TextInputAction.next,
-              maxLength: 20,
-              decoration: InputDecoration(
-                labelText: "Office Name",
-                counterText: '',
-              ),
+        // Official Details
+        Step(
+          isActive: currentStep >= 2,
+          title: Text("Official Details"),
+          content: Container(
+            child: Column(
+              children: [
+                // Office Name
+                TextFormField(
+                  keyboardType: TextInputType.text,
+                  textInputAction: TextInputAction.next,
+                  maxLength: 20,
+                  decoration: InputDecoration(
+                    labelText: "Office Name",
+                    counterText: '',
+                  ),
+                ),
+                // Address
+                TextFormField(
+                  keyboardType: TextInputType.streetAddress,
+                  textInputAction: TextInputAction.next,
+                  maxLength: 40,
+                  maxLines: 2,
+                  decoration: InputDecoration(
+                    labelText: "Address (Optional)",
+                    counterText: '',
+                  ),
+                ),
+                // Website
+                TextFormField(
+                  keyboardType: TextInputType.url,
+                  textInputAction: TextInputAction.next,
+                  maxLength: 25,
+                  decoration: InputDecoration(
+                    labelText: "Website",
+                    counterText: '',
+                  ),
+                ),
+              ],
             ),
-            // Address
-            TextFormField(
-              keyboardType: TextInputType.streetAddress,
-              textInputAction: TextInputAction.next,
-              maxLength: 40,
-              maxLines: 2,
-              decoration: InputDecoration(
-                labelText: "Address (Optional)",
-                counterText: '',
-              ),
-            ),
-            // Website
-            TextFormField(
-              keyboardType: TextInputType.url,
-              textInputAction: TextInputAction.next,
-              maxLength: 25,
-              decoration: InputDecoration(
-                labelText: "Website",
-                counterText: '',
-              ),
-            ),
-          ],
+          ),
         ),
-      ),
-    ),
-    // Notes
-    Step(
-      isActive: currentStep >= 3,
-      title: Text("Notes"),
-      subtitle: Text("(Optional)"),
-      content: Container(
-        child: Column(
-          children: [
-            // Personal Notes
-            TextFormField(
-              keyboardType: TextInputType.streetAddress,
-              textInputAction: TextInputAction.next,
-              maxLength: 40,
-              maxLines: 2,
-              decoration: InputDecoration(
-                labelText: "Personal Notes",
-                counterText: '',
-              ),
+        // Notes
+        Step(
+          isActive: currentStep >= 3,
+          title: Text("Notes"),
+          subtitle: Text("(Optional)"),
+          content: Container(
+            child: Column(
+              children: [
+                // Personal Notes
+                TextFormField(
+                  keyboardType: TextInputType.streetAddress,
+                  textInputAction: TextInputAction.next,
+                  maxLength: 40,
+                  maxLines: 2,
+                  decoration: InputDecoration(
+                    labelText: "Personal Notes",
+                    counterText: '',
+                  ),
+                ),
+                // Official Notes
+                TextFormField(
+                  keyboardType: TextInputType.streetAddress,
+                  textInputAction: TextInputAction.next,
+                  maxLength: 40,
+                  maxLines: 2,
+                  decoration: InputDecoration(
+                    labelText: "Official Notes",
+                    counterText: '',
+                  ),
+                ),
+              ],
             ),
-            // Official Notes
-            TextFormField(
-              keyboardType: TextInputType.streetAddress,
-              textInputAction: TextInputAction.next,
-              maxLength: 40,
-              maxLines: 2,
-              decoration: InputDecoration(
-                labelText: "Official Notes",
-                counterText: '',
-              ),
-            ),
-          ],
+          ),
         ),
-      ),
-    ),
-  ];
+      ];
 
   Future<void> _selectDate(BuildContext context) async {
     final DateTime? picked = await showDatePicker(
@@ -246,5 +295,15 @@ class _AddContactState extends State<AddContact> {
         birthDateController.text = DateFormat('dd/MM/yyyy').format(picked);
       });
     }
+  }
+
+  @override
+  void dispose() {
+    officeNameController.dispose();
+    officeAddressController.dispose();
+    websiteController.dispose();
+    personalNotesController.dispose();
+    officialNotesController.dispose();
+    super.dispose();
   }
 }

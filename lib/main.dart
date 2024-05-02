@@ -1,6 +1,7 @@
 import 'package:contact_diary/DrawerPageScreen/ProfilePage.dart';
 import 'package:contact_diary/LoginPage/SignIn.dart';
 import 'package:contact_diary/LoginPage/SignUp.dart';
+import 'package:contact_diary/Provider/ContactProvider.dart';
 import 'package:contact_diary/Provider/SignUpProvider.dart';
 import 'package:contact_diary/screen/addContact.dart';
 import 'package:contact_diary/screen/homePage.dart';
@@ -26,7 +27,8 @@ class _MainPageState extends State<MainPage> {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (context) => SignUpProvider())
+        ChangeNotifierProvider(create: (context) => SignUpProvider()),
+        ChangeNotifierProvider(create: (context) => ContactProvider()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

@@ -39,7 +39,7 @@ class _SplashScreenState extends State<SplashScreen> {
     Future.delayed(
       Duration(seconds: 8), // Delay of 1 second before animation starts
           () {
-        Navigator.pushNamed(context, "SignIn");
+        Navigator.pushReplacementNamed(context, "SignIn");
       },
     );
   }
@@ -155,12 +155,6 @@ class _SplashScreenState extends State<SplashScreen> {
             ),
           ),
         ],
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: (){
-          Navigator.pushNamed(context, "SignIn");
-        },
-        child: Text('SignIn Page'),
       ),
     );
   }

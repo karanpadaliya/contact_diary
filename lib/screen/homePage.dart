@@ -1,12 +1,17 @@
 import 'dart:convert';
 
+import 'package:contact_diary/Provider/ContactProvider.dart';
 import 'package:contact_diary/Provider/SignUpProvider.dart';
+import 'package:contact_diary/model/contact_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+  int? index;
+
+  HomePage({super.key, this.index});
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -24,8 +29,19 @@ class _HomePageState extends State<HomePage> {
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: CircleAvatar(
-              child: Text("K"),
+              child: Consumer<SignUpProvider>(
+                  builder: (BuildContext context, value, Widget? child) {
+                    return Text("${value.userName![0].toUpperCase()}");
+                  }),
             ),
+          ),
+          IconButton(
+            onPressed: () async {
+              var instance = await SharedPreferences.getInstance();
+              instance.setBool("isLogin", false);
+              Navigator.pushReplacementNamed(context, "SignIn");
+            },
+            icon: Icon(Icons.exit_to_app),
           ),
         ],
       ),
@@ -43,8 +59,6 @@ class _HomePageState extends State<HomePage> {
                   CircleAvatar(
                     radius: 40.0,
                     backgroundImage: AssetImage('path_to_your_image.jpg'),
-                    // You can also use NetworkImage for images from the internet
-                    // backgroundImage: NetworkImage('url_to_your_image.jpg'),
                   ),
                   SizedBox(height: 8.0),
                   Consumer<SignUpProvider>(
@@ -85,47 +99,61 @@ class _HomePageState extends State<HomePage> {
           ],
         ),
       ),
-      body: Column(
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Consumer<SignUpProvider>(
-              builder: (BuildContext context, value, Widget? child) {
-                return RichText(
-                  text: TextSpan(
-                    children: [
-                      TextSpan(
-                        text: "Welcome!!",
-                        style: titleStyle(
-                          fSize: 20.00,
-                        ),
+      body: Consumer<ContactProvider>(
+        builder: (BuildContext context, value, Widget? child) {
+          return ListView.builder(
+            itemCount: value.contactList.length,
+            itemBuilder: (context, index) {
+              ContactModel contact = value.contactList[index];
+              return ListTile(
+                leading: CircleAvatar(
+                  child: Text("${contact.Contact_name}"[0].toUpperCase()),
+                ),
+                title: Text(contact.Contact_name ?? "Contact_Name_Not_Found"),
+                subtitle: Text(
+                    contact.Contact_mobileNo ?? "Contact_MobileNo_Not_Found"),
+                trailing: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    IconButton(
+                      onPressed: () {
+                        Navigator.pushNamed(
+                          context,
+                          "AddContact",
+                          arguments: {
+                            'contactList': value.contactList,
+                            'contactIndex': index,
+                          },
+                        );
+                      },
+                      icon: Icon(
+                        Icons.edit,
+                        color: CupertinoColors.link,
                       ),
-                      TextSpan(
-                        text: "\n${value.userName ?? "No name"}",
-                        style: titleStyle(
-                          fSize: 30.0,
-                          fFamily: "Roboto",
-                        ),
+                    ),
+                    IconButton(
+                      onPressed: () {
+                        Provider.of<ContactProvider>(context, listen: false)
+                            .deleteContact(index);
+                      },
+                      icon: Icon(
+                        Icons.delete,
+                        color: Colors.redAccent,
                       ),
-                    ],
-                  ),
-                );
-              },
-            ),
-          ),
-          ElevatedButton(
-            onPressed: () {
-              Navigator.pushNamed(context, "ViewContact");
+                    ),
+                  ],
+                ),
+              );
             },
-            child: Icon(CupertinoIcons.rectangle_stack_person_crop_fill),
-          ),
-        ],
+          );
+        },
       ),
       floatingActionButton: FloatingActionButton(
         backgroundColor: CupertinoColors.link,
         foregroundColor: CupertinoColors.white,
         child: Icon(CupertinoIcons.person_badge_plus_fill),
         onPressed: () {
+          if (widget.index != null) {}
           Navigator.pushNamed(context, "AddContact");
         },
       ),
