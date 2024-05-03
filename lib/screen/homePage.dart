@@ -6,7 +6,9 @@ import 'package:contact_diary/model/contact_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class HomePage extends StatefulWidget {
   int? index;
@@ -28,21 +30,47 @@ class _HomePageState extends State<HomePage> {
         actions: [
           Padding(
             padding: const EdgeInsets.all(8.0),
-            child: CircleAvatar(
-              child: Consumer<SignUpProvider>(
-                  builder: (BuildContext context, value, Widget? child) {
-                    return Text("${value.userName![0].toUpperCase()}");
-                  }),
+            child: PopupMenuButton(
+              child: Icon(
+                CupertinoIcons.person_crop_circle,
+                size: 30,
+              ),
+              itemBuilder: (context) {
+                return [
+                  PopupMenuItem(
+                    child: Column(
+                      children: [
+                        ListTile(
+                          leading: Icon(
+                            Icons.person_pin_outlined,
+                            color: Colors.black,
+                          ),
+                          title: Text("Profile"),
+                          onTap: () {
+                            Navigator.pushNamed(context, "ProfilePage");
+                          },
+                          // trailing: Icon(CupertinoIcons.right_chevron),
+                        ),
+                        Divider(),
+                        ListTile(
+                          leading: Icon(
+                            Icons.exit_to_app,
+                            color: Colors.black,
+                          ),
+                          title: Text("Logout"),
+                          onTap: () async {
+                            var instance = await SharedPreferences.getInstance();
+                            instance.setBool("isLogin", false);
+                            Navigator.pushReplacementNamed(context, "SignIn");
+                          },
+                        ),
+                      ],
+                    ),
+                  ),
+                ];
+              },
             ),
-          ),
-          IconButton(
-            onPressed: () async {
-              var instance = await SharedPreferences.getInstance();
-              instance.setBool("isLogin", false);
-              Navigator.pushReplacementNamed(context, "SignIn");
-            },
-            icon: Icon(Icons.exit_to_app),
-          ),
+          )
         ],
       ),
       drawer: Drawer(
@@ -112,36 +140,119 @@ class _HomePageState extends State<HomePage> {
                 title: Text(contact.Contact_name ?? "Contact_Name_Not_Found"),
                 subtitle: Text(
                     contact.Contact_mobileNo ?? "Contact_MobileNo_Not_Found"),
-                trailing: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    IconButton(
-                      onPressed: () {
-                        Navigator.pushNamed(
-                          context,
-                          "AddContact",
-                          arguments: {
-                            'contactList': value.contactList,
-                            'contactIndex': index,
+                trailing: PopupMenuButton(
+                  itemBuilder: (context) {
+                    return [
+                      PopupMenuItem(
+                        child: InkWell(
+                          onTap: () {
+                            launchUrl(Uri.parse(
+                                "tel: ${value.contactList[index].Contact_mobileNo}"));
+                            Navigator.pop(context);
                           },
-                        );
-                      },
-                      icon: Icon(
-                        Icons.edit,
-                        color: CupertinoColors.link,
+                          child: Row(
+                            children: [
+                              IconButton(
+                                onPressed: () {},
+                                icon: Icon(
+                                  Icons.call,
+                                  color: Colors.green,
+                                ),
+                              ),
+                              Text("Call"),
+                            ],
+                          ),
+                        ),
                       ),
-                    ),
-                    IconButton(
-                      onPressed: () {
-                        Provider.of<ContactProvider>(context, listen: false)
-                            .deleteContact(index);
-                      },
-                      icon: Icon(
-                        Icons.delete,
-                        color: Colors.redAccent,
+                      PopupMenuItem(
+                        child: InkWell(
+                          onTap: () {
+                            launchUrl(Uri.parse(
+                                "sms: ${value.contactList[index].Contact_mobileNo}"));
+                            Navigator.pop(context);
+                          },
+                          child: Row(
+                            children: [
+                              IconButton(
+                                onPressed: () {},
+                                icon: Icon(
+                                  Icons.message,
+                                  color: Colors.grey,
+                                ),
+                              ),
+                              Text("Message"),
+                            ],
+                          ),
+                        ),
                       ),
-                    ),
-                  ],
+                      PopupMenuItem(
+                        child: InkWell(
+                          onTap: () {
+                            String con =
+                                'Please Use this number ${value.contactList[index].Contact_name ?? "Contact_Name_NotFound"},${value.contactList[index].Contact_mobileNo ?? "Mobile_Number_NotFound"} ';
+                            Share.share(con);
+                            Navigator.pop(context);
+                          },
+                          child: Row(
+                            children: [
+                              IconButton(
+                                onPressed: () {},
+                                icon: Icon(
+                                  Icons.share,
+                                  color: Colors.black,
+                                ),
+                              ),
+                              Text("Share"),
+                            ],
+                          ),
+                        ),
+                      ),
+                      PopupMenuItem(
+                        child: Row(
+                          children: [
+                            IconButton(
+                              onPressed: () {
+                                Navigator.pushNamed(
+                                  context,
+                                  "AddContact",
+                                  arguments: {
+                                    'contactList': value.contactList,
+                                    'contactIndex': index,
+                                  },
+                                );
+                              },
+                              icon: Icon(
+                                Icons.edit,
+                                color: CupertinoColors.link,
+                              ),
+                            ),
+                            Text("Edit"),
+                          ],
+                        ),
+                      ),
+                      PopupMenuItem(
+                        child: InkWell(
+                          onTap: () {
+                            Provider.of<ContactProvider>(context, listen: false)
+                                .deleteContact(index);
+                            Navigator.pop(context);
+                          },
+                          child: Row(
+                            children: [
+                              IconButton(
+                                onPressed: () {},
+                                icon: Icon(
+                                  Icons.delete,
+                                  color: Colors.redAccent,
+                                ),
+                              ),
+                              Text("Delete"),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ];
+                  },
                 ),
               );
             },

@@ -31,15 +31,12 @@ class _AddContactState extends State<AddContact> {
   void didChangeDependencies() {
     super.didChangeDependencies();
     if (widget.index != null) {
-      var ContactName = Provider.of<ContactProvider>(context, listen: false)
-              .contactList[widget.index!]
-              .Contact_name ??
+      var contact = Provider.of<ContactProvider>(context, listen: false).contactList[widget.index!];
+      var contactName = contact.Contact_name ??
           "Contact_name_NotFound";
-      contactNameController.text = ContactName;
+      contactNameController.text = contactName;
 
-      var ContactEmail = Provider.of<ContactProvider>(context, listen: false)
-          .contactList[widget.index!]
-          .Contact_email ??
+      var ContactEmail = contact.Contact_email ??
           "Contact_Email_NotFound";
       contactNameController.text = ContactEmail;
     }
@@ -193,6 +190,7 @@ class _AddContactState extends State<AddContact> {
                 ),
                 // Address
                 TextFormField(
+                  controller: addressController,
                   keyboardType: TextInputType.streetAddress,
                   textInputAction: TextInputAction.next,
                   maxLength: 40,
@@ -215,6 +213,7 @@ class _AddContactState extends State<AddContact> {
               children: [
                 // Office Name
                 TextFormField(
+                  controller: officeNameController,
                   keyboardType: TextInputType.text,
                   textInputAction: TextInputAction.next,
                   maxLength: 20,
@@ -225,6 +224,7 @@ class _AddContactState extends State<AddContact> {
                 ),
                 // Address
                 TextFormField(
+                  controller: officeAddressController,
                   keyboardType: TextInputType.streetAddress,
                   textInputAction: TextInputAction.next,
                   maxLength: 40,
@@ -236,6 +236,7 @@ class _AddContactState extends State<AddContact> {
                 ),
                 // Website
                 TextFormField(
+                  controller: websiteController,
                   keyboardType: TextInputType.url,
                   textInputAction: TextInputAction.next,
                   maxLength: 25,
@@ -258,6 +259,7 @@ class _AddContactState extends State<AddContact> {
               children: [
                 // Personal Notes
                 TextFormField(
+                  controller: personalNotesController,
                   keyboardType: TextInputType.streetAddress,
                   textInputAction: TextInputAction.next,
                   maxLength: 40,
@@ -269,6 +271,7 @@ class _AddContactState extends State<AddContact> {
                 ),
                 // Official Notes
                 TextFormField(
+                  controller: officialNotesController,
                   keyboardType: TextInputType.streetAddress,
                   textInputAction: TextInputAction.next,
                   maxLength: 40,

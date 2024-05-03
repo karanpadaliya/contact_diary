@@ -14,27 +14,44 @@ class ContactProvider extends ChangeNotifier {
   }
 
   void setPersonalDetails(String birthdate, String? address) {
-    contactList.add(
-      ContactModel(birthdate: birthdate, Contact_address: address),
-    );
+    // contactList.add(
+    //   ContactModel(birthdate: birthdate, Contact_address: address),
+    // );
+    var old = contactList.last;
+    old.birthdate=birthdate;
+    old.Contact_address=address;
+
+    contactList[contactList.length - 1] = old;
     notifyListeners();
   }
 
   void setOfficialDetails(
       String? officeName, String? officeAddress, String? website) {
-    contactList.add(
-      ContactModel(
-          Office_name: officeName,
-          Contact_address: officeAddress,
-          Office_website: website),
-    );
+    // contactList.add(
+    //   ContactModel(
+    //       Office_name: officeName,
+    //       Contact_address: officeAddress,
+    //       Office_website: website),
+    // );
+    var old = contactList.last;
+    old.Office_name= officeName;
+    old.Contact_address= officeAddress;
+    old.Office_website= website;
+
+    contactList[contactList.length - 1] = old;
     notifyListeners();
   }
 
   void setNotes(String? personalNote, String? officialNote) {
-    contactList.add(
-      ContactModel(PersonalNote: personalNote, OfficialNote: officialNote),
-    );
+    // contactList.add(
+    //   ContactModel(PersonalNote: personalNote, OfficialNote: officialNote),
+    // );
+
+    var old = contactList.last;
+    old.PersonalNote= personalNote;
+    old.OfficialNote= officialNote;
+
+    contactList[contactList.length - 1] = old;
     notifyListeners();
   }
 
