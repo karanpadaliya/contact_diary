@@ -19,13 +19,14 @@ class _SignInState extends State<SignIn> {
   bool isPassword = true;
 
   void isPasswordVisibility() {}
+
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
     SharedPreferences.getInstance().then((pref) {
       var isLogin = pref.getBool("isLogin");
-      if (isLogin??false){
-       Navigator.pushReplacementNamed(context, "HomePage");
+      if (isLogin ?? false) {
+        Navigator.pushReplacementNamed(context, "HomePage");
       }
     });
   }
@@ -183,8 +184,9 @@ class _SignInState extends State<SignIn> {
                             backgroundColor:
                                 MaterialStatePropertyAll(CupertinoColors.link),
                           ),
-                          onPressed: () async{
-                            var isValidate = fKey.currentState?.validate()??false;
+                          onPressed: () async {
+                            var isValidate =
+                                fKey.currentState?.validate() ?? false;
                             String mobile = MobileController.text;
                             String pin = PinController.text;
 
@@ -195,11 +197,12 @@ class _SignInState extends State<SignIn> {
                                   content: Text('All fields are required'),
                                 ),
                               );
-                            } else if(isValidate) {
+                            } else if (isValidate) {
                               int mobileInt = int.parse(mobile);
                               if (value.userMobileNo == mobileInt &&
                                   value.userPin == pin) {
-                                var sharedPreference = await SharedPreferences.getInstance();
+                                var sharedPreference =
+                                    await SharedPreferences.getInstance();
                                 await sharedPreference.setBool("isLogin", true);
                                 Navigator.pushNamed(context, "HomePage");
                               } else {

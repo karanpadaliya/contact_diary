@@ -54,19 +54,19 @@ class _AddContactState extends State<AddContact> {
         physics: BouncingScrollPhysics(),
         child: Column(
           children: [
-            // Container(
-            //   height: 200,
-            //   color: Colors.blueAccent,
-            //   child: Consumer<ContactProvider>(
-            //     builder: (BuildContext context, value, Widget? child) {
-            //       return Column(
-            //         children: [
-            //           Text(value.contactList),
-            //         ],
-            //       );
-            //     },
-            //   ),
-            // ),
+            Container(
+              height: 200,
+              color: Colors.blueAccent,
+              child: Consumer<ContactProvider>(
+                builder: (BuildContext context, value, Widget? child) {
+                  return Column(
+                    children: [
+                      Text(""),
+                    ],
+                  );
+                },
+              ),
+            ),
             Stepper(
               type: StepperType.vertical,
               steps: getSteps(),

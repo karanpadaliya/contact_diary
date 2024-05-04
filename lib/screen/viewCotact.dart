@@ -1,9 +1,8 @@
-import 'package:contact_diary/Provider/ContactProvider.dart';
+import 'dart:ui';
+
 import 'package:contact_diary/model/contact_model.dart';
-import 'package:contact_diary/screen/addContact.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 class ViewContact extends StatefulWidget {
   const ViewContact({super.key});
@@ -13,60 +12,51 @@ class ViewContact extends StatefulWidget {
 }
 
 class _ViewContactState extends State<ViewContact> {
+
   @override
   Widget build(BuildContext context) {
+    // Retrieve the data passed from the previous page
+    final ContactModel contact = ModalRoute.of(context)?.settings.arguments as ContactModel;
+
     return Scaffold(
       appBar: AppBar(
-        title: Text("Contact"),
+        backgroundColor: CupertinoColors.link,
+        foregroundColor: CupertinoColors.white,
+        title: Text("${contact.Contact_name?.toUpperCase()}"),
       ),
-      body: Consumer<ContactProvider>(
-        builder: (BuildContext context, value, Widget? child) {
-          return ListView.builder(
-            itemCount: value.contactList.length,
-            itemBuilder: (context, index) {
-              ContactModel contact = value.contactList[index];
-              return ListTile(
-                leading: CircleAvatar(
-                  child: Text("${contact.Contact_name}"[0].toUpperCase()),
-                ),
-                title: Text(contact.Contact_name ?? "Contact_Name_Not_Found"),
-                subtitle: Text(
-                    contact.Contact_mobileNo ?? "Contact_MobileNo_Not_Found"),
-                trailing: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    IconButton(
-                      onPressed: () {
-                        Navigator.pushNamed(
-                          context,
-                          "AddContact",
-                          arguments: {
-                            'contactList': value.contactList,
-                            'contactIndex': index,
-                          },
-                        );
-                      },
-                      icon: Icon(
-                        Icons.edit,
-                        color: CupertinoColors.link,
-                      ),
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Stack(
+            children: [
+              Container(
+                height: 150,
+                width: 500,
+                color: Colors.blueAccent,
+              ),
+              Align(
+                alignment: Alignment.topCenter,
+                child: Padding(
+                  padding: const EdgeInsets.only(top: 100),
+                  child: SizedBox(
+                    height: 100,
+                    width: 200,
+                    child: CircleAvatar(
+                      child: Text("Karan"),
                     ),
-                    IconButton(
-                      onPressed: () {
-                        Provider.of<ContactProvider>(context, listen: false)
-                            .deleteContact(index);
-                      },
-                      icon: Icon(
-                        Icons.delete,
-                        color: Colors.redAccent,
-                      ),
-                    ),
-                  ],
+                  ),
                 ),
-              );
-            },
-          );
-        },
+              ),
+            ],
+          ),
+          Text("${contact.Contact_name?.toUpperCase()}"),
+          Text("${contact.Contact_mobileNo??"Contact_mobileNo_NotFound"}"),
+          Container(
+            height: 510,
+            width: 400,
+            // color: Colors.red,
+          ),
+        ],
       ),
     );
   }
