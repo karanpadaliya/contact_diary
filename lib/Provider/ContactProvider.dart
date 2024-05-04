@@ -18,8 +18,8 @@ class ContactProvider extends ChangeNotifier {
     //   ContactModel(birthdate: birthdate, Contact_address: address),
     // );
     var old = contactList.last;
-    old.birthdate=birthdate;
-    old.Contact_address=address;
+    old.birthdate = birthdate;
+    old.Contact_address = address;
 
     contactList[contactList.length - 1] = old;
     notifyListeners();
@@ -34,9 +34,9 @@ class ContactProvider extends ChangeNotifier {
     //       Office_website: website),
     // );
     var old = contactList.last;
-    old.Office_name= officeName;
-    old.Contact_address= officeAddress;
-    old.Office_website= website;
+    old.Office_name = officeName;
+    old.Office_Address = officeAddress;
+    old.Office_website = website;
 
     contactList[contactList.length - 1] = old;
     notifyListeners();
@@ -48,8 +48,8 @@ class ContactProvider extends ChangeNotifier {
     // );
 
     var old = contactList.last;
-    old.PersonalNote= personalNote;
-    old.OfficialNote= officialNote;
+    old.PersonalNote = personalNote;
+    old.OfficialNote = officialNote;
 
     contactList[contactList.length - 1] = old;
     notifyListeners();
