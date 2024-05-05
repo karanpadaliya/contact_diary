@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:contact_diary/model/contact_model.dart';
+import 'package:contact_diary/screen/addContact.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:share_plus/share_plus.dart';
@@ -44,7 +45,15 @@ class _ViewContactState extends State<ViewContact> {
                   ),
                 ),
               ),
-              onPressed: () {},
+              onPressed: () {
+                //   Pass the data to AddContact page
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => AddContact(contactModel: value),
+                  ),
+                );
+              },
               child: Text(
                 "Edit",
                 style: TextStyle(color: CupertinoColors.link),
@@ -150,7 +159,9 @@ class _ViewContactState extends State<ViewContact> {
               ),
             ],
           ),
-          SizedBox(height: 20,),
+          SizedBox(
+            height: 20,
+          ),
           Container(
             height: 420,
             // color: CupertinoColors.white,
@@ -181,12 +192,18 @@ class _ViewContactState extends State<ViewContact> {
                     SizedBox(
                       height: 20,
                     ),
-                    _buildDetailRow("Contact Name", value.Contact_name),
-                    _buildDetailRow("Email ID", value.Contact_email),
-                    _buildDetailRow("Mobile No", value.Contact_mobileNo),
-                    _buildDetailRow("Birthdate", value.birthdate),
-                    _buildDetailRow("Address", value.Contact_address),
-                    _buildDetailRow("Personal Note", value.PersonalNote),
+                    _buildDetailRow(
+                        "Contact Name", value.Contact_name ?? "Not available"),
+                    _buildDetailRow(
+                        "Email ID", value.Contact_email ?? "Not available"),
+                    _buildDetailRow(
+                        "Mobile No", value.Contact_mobileNo ?? "Not available"),
+                    _buildDetailRow(
+                        "Birthdate", value.birthdate ?? "Not available"),
+                    _buildDetailRow(
+                        "Address", value.Contact_address ?? "Not available"),
+                    _buildDetailRow(
+                        "Personal Note", value.PersonalNote ?? "Not available"),
                     SizedBox(height: 20),
                     Container(
                       height: 35,
@@ -208,10 +225,14 @@ class _ViewContactState extends State<ViewContact> {
                     SizedBox(
                       height: 20,
                     ),
-                    _buildDetailRow("Office Name", value.Office_name),
-                    _buildDetailRow("Office Address", value.Office_Address),
-                    _buildDetailRow("Website", value.Office_website),
-                    _buildDetailRow("Official Note", value.OfficialNote),
+                    _buildDetailRow(
+                        "Office Name", value.Office_name ?? "Not available"),
+                    _buildDetailRow("Office Address",
+                        value.Office_Address ?? "Not available"),
+                    _buildDetailRow(
+                        "Website", value.Office_website ?? "Not available"),
+                    _buildDetailRow(
+                        "Official Note", value.OfficialNote ?? "Not available"),
                   ],
                 ),
               ),

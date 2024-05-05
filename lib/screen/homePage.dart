@@ -389,7 +389,7 @@ class _HomePageState extends State<HomePage> {
     var setContactAddress = await SharedPreferences.getInstance();
     var getContactAddress = setContactAddress.getString("ContactAddress");
     String ContactAddress = getContactAddress ?? "ContactAddress_notFound";
-    Provider.of<ContactProvider>(context)
+    Provider.of<ContactProvider>(context,listen: false)
         .setPersonalDetails(ContactBirthdate, ContactAddress);
 
     //   OfficeName / OfficeAddress / website

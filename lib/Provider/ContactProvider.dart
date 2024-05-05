@@ -10,6 +10,12 @@ class ContactProvider extends ChangeNotifier {
       ContactModel(
           Contact_name: name, Contact_email: email, Contact_mobileNo: mobileNo),
     );
+    var old = contactList.last;
+    old.Contact_name = name;
+    old.Contact_email = email;
+    old.Contact_mobileNo = mobileNo;
+
+    contactList[contactList.length - 1] = old;
     notifyListeners();
   }
 

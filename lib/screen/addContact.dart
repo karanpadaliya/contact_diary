@@ -1,4 +1,5 @@
 import 'package:contact_diary/Provider/ContactProvider.dart';
+import 'package:contact_diary/model/contact_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -8,7 +9,9 @@ import 'package:shared_preferences/shared_preferences.dart';
 class AddContact extends StatefulWidget {
   int? index;
 
-  AddContact({Key? key, this.index}) : super(key: key);
+  final ContactModel? contactModel;
+
+  AddContact({Key? key, this.index, this.contactModel}) : super(key: key);
 
   @override
   State<AddContact> createState() => _AddContactState();
@@ -28,18 +31,37 @@ class _AddContactState extends State<AddContact> {
 
   int currentStep = 0;
 
+  // @override
+  // void didChangeDependencies() {
+  //   super.didChangeDependencies();
+  //   if (widget.index != null) {
+  //     var contact = Provider.of<ContactProvider>(context, listen: false).contactList[widget.index!];
+  //     var contactName = contact.Contact_name ??
+  //         "Contact_name_NotFound";
+  //     contactNameController.text = contactName;
+  //
+  //     var ContactEmail = contact.Contact_email ??
+  //         "Contact_Email_NotFound";
+  //     contactNameController.text = ContactEmail;
+  //   }
+  // }
+
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    if (widget.index != null) {
-      var contact = Provider.of<ContactProvider>(context, listen: false).contactList[widget.index!];
-      var contactName = contact.Contact_name ??
-          "Contact_name_NotFound";
-      contactNameController.text = contactName;
+    if (widget.contactModel != null) {
+      var contact = widget.contactModel!;
 
-      var ContactEmail = contact.Contact_email ??
-          "Contact_Email_NotFound";
-      contactNameController.text = ContactEmail;
+      contactNameController.text = contact.Contact_name ?? "Not available";
+      contactEmailController.text = contact.Contact_email ?? "Not available";
+      contactMobileNoController.text = contact.Contact_mobileNo ?? "Not available";
+      birthDateController.text = contact.birthdate ?? "Not available";
+      addressController.text = contact.Contact_address ?? "Not available";
+      officeNameController.text = contact.Office_name ?? "Not available";
+      officeAddressController.text = contact.Office_Address ?? "Not available";
+      websiteController.text = contact.Office_website ?? "Not available";
+      personalNotesController.text = contact.PersonalNote ?? "Not available";
+      officialNotesController.text = contact.OfficialNote ?? "Not available";
     }
   }
 
@@ -49,7 +71,7 @@ class _AddContactState extends State<AddContact> {
       appBar: AppBar(
         backgroundColor: CupertinoColors.link,
         foregroundColor: CupertinoColors.white,
-        title: Text(widget.index !=null ? "Edit Page" : "AddPage"),
+        title: Text(widget.contactModel != null ? "Edit Contact" : "Add Contact"),
       ),
       body: SingleChildScrollView(
         physics: BouncingScrollPhysics(),
@@ -125,6 +147,7 @@ class _AddContactState extends State<AddContact> {
 
                   Provider.of<ContactProvider>(context, listen: false)
                       .setNotes(personalNotes, officialNotes);
+                  Navigator.pop(context);
                 }
 
                 if (currentStep < 3) {

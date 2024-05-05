@@ -1,6 +1,7 @@
 import 'package:contact_diary/DrawerPageScreen/ProfilePage.dart';
 import 'package:contact_diary/Provider/ContactProvider.dart';
 import 'package:contact_diary/Provider/SignUpProvider.dart';
+import 'package:contact_diary/Provider/ThemeProvider.dart';
 import 'package:contact_diary/screen/LoginPage/SignIn.dart';
 import 'package:contact_diary/screen/LoginPage/SignUp.dart';
 import 'package:contact_diary/screen/addContact.dart';
