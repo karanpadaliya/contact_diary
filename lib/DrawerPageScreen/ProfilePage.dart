@@ -205,12 +205,9 @@ class _ProfilePageState extends State<ProfilePage> {
                                         onPressed: () {
                                           String editedMobileNo =
                                               MobileNoController.text;
-
-                                          int EditMobileNo =
-                                              int.parse(editedMobileNo).toInt();
                                           Provider.of<SignUpProvider>(context,
                                                   listen: false)
-                                              .setMobileNo(EditMobileNo);
+                                              .setMobileNo(editedMobileNo);
                                           Navigator.pop(context,
                                               editedMobileNo); // Pass the edited value back to the caller
                                         },

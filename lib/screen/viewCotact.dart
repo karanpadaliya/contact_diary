@@ -70,8 +70,25 @@ class _ViewContactState extends State<ViewContact> {
                   child: SizedBox(
                     height: 100,
                     width: 200,
-                    child: CircleAvatar(
-                      child: Text("${value.Contact_name}"[0].toUpperCase()),
+                    child: Container(
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        border: Border.all(
+                          color: Colors.blue,
+                          width: 3,
+                        ),
+                      ),
+                      child: CircleAvatar(
+                        backgroundColor: Colors.white,
+                        child: Text(
+                          _getContactInitial(value.Contact_name ?? "NO_Name"),
+                          style: TextStyle(
+                            fontSize: 24,
+                            fontWeight: FontWeight.bold,
+                            fontFamily: "sedan",
+                          ),
+                        ),
+                      ),
                     ),
                   ),
                 ),
@@ -86,7 +103,9 @@ class _ViewContactState extends State<ViewContact> {
             ),
           ),
           Text("${value.Contact_mobileNo ?? "Contact_mobileNo_NotFound"}"),
-          SizedBox(height: 15),
+          SizedBox(
+            height: 4,
+          ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             // mainAxisSize: MainAxisSize.min,
@@ -131,8 +150,9 @@ class _ViewContactState extends State<ViewContact> {
               ),
             ],
           ),
+          SizedBox(height: 20,),
           Container(
-            height: 450,
+            height: 420,
             // color: CupertinoColors.white,
             child: SingleChildScrollView(
               physics: BouncingScrollPhysics(),
@@ -144,7 +164,7 @@ class _ViewContactState extends State<ViewContact> {
                     Container(
                       height: 35,
                       width: double.infinity,
-                      color: Colors.grey.withOpacity(0.25),
+                      color: Colors.grey.withOpacity(0.2),
                       child: Padding(
                         padding: const EdgeInsets.only(top: 4, left: 5),
                         child: Text(
@@ -159,7 +179,7 @@ class _ViewContactState extends State<ViewContact> {
                       ),
                     ),
                     SizedBox(
-                      height: 12,
+                      height: 20,
                     ),
                     _buildDetailRow("Contact Name", value.Contact_name),
                     _buildDetailRow("Email ID", value.Contact_email),
@@ -171,7 +191,7 @@ class _ViewContactState extends State<ViewContact> {
                     Container(
                       height: 35,
                       width: double.infinity,
-                      color: Colors.grey.withOpacity(0.25),
+                      color: Colors.grey.withOpacity(0.2),
                       child: Padding(
                         padding: const EdgeInsets.only(top: 4, left: 5),
                         child: Text(
@@ -186,7 +206,7 @@ class _ViewContactState extends State<ViewContact> {
                       ),
                     ),
                     SizedBox(
-                      height: 12,
+                      height: 20,
                     ),
                     _buildDetailRow("Office Name", value.Office_name),
                     _buildDetailRow("Office Address", value.Office_Address),
@@ -238,5 +258,16 @@ class _ViewContactState extends State<ViewContact> {
         ],
       ),
     );
+  }
+
+  String _getContactInitial(String contactName) {
+    String initial = '';
+    List<String> words = contactName.split(' ');
+    for (String word in words) {
+      if (word.isNotEmpty) {
+        initial += word[0];
+      }
+    }
+    return initial.toUpperCase();
   }
 }

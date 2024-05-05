@@ -198,8 +198,7 @@ class _SignInState extends State<SignIn> {
                                 ),
                               );
                             } else if (isValidate) {
-                              int mobileInt = int.parse(mobile);
-                              if (value.userMobileNo == mobileInt &&
+                              if (value.userMobileNo == mobile &&
                                   value.userPin == pin) {
                                 var sharedPreference =
                                     await SharedPreferences.getInstance();

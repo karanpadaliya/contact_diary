@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class AddContact extends StatefulWidget {
   int? index;
@@ -71,17 +72,29 @@ class _AddContactState extends State<AddContact> {
               type: StepperType.vertical,
               steps: getSteps(),
               currentStep: currentStep,
-              onStepContinue: () {
+              onStepContinue: () async{
                 if (currentStep == 0) {
                   String name = contactNameController.text;
                   String email = contactEmailController.text;
                   String mobileNo = contactMobileNoController.text;
+
+                  SharedPreferences spName = await SharedPreferences.getInstance();
+                  spName.setString("ContactName", name);
+                  SharedPreferences spEmail = await SharedPreferences.getInstance();
+                  spEmail.setString("ContactEmail", email);
+                  SharedPreferences spMobileNo = await SharedPreferences.getInstance();
+                  spMobileNo.setString("ContactMobileNo", mobileNo);
 
                   Provider.of<ContactProvider>(context, listen: false)
                       .setContactDetails(name, email, mobileNo);
                 } else if (currentStep == 1) {
                   String birthDate = birthDateController.text;
                   String address = addressController.text;
+
+                  SharedPreferences spContactBirthdate = await SharedPreferences.getInstance();
+                  spContactBirthdate.setString("ContactBirthdate", birthDate);
+                  SharedPreferences spContactAddress = await SharedPreferences.getInstance();
+                  spContactAddress.setString("ContactAddress", address);
 
                   Provider.of<ContactProvider>(context, listen: false)
                       .setPersonalDetails(birthDate, address);
@@ -90,6 +103,13 @@ class _AddContactState extends State<AddContact> {
                   String? officeAddress = officeAddressController.text;
                   String? website = websiteController.text;
 
+                  SharedPreferences spOfficeName = await SharedPreferences.getInstance();
+                  spOfficeName.setString("OfficeName", officeName);
+                  SharedPreferences spOfficeAddress = await SharedPreferences.getInstance();
+                  spOfficeAddress.setString("OfficeAddress", officeAddress);
+                  SharedPreferences spOfficeWebsite = await SharedPreferences.getInstance();
+                  spOfficeWebsite.setString("OfficeWebsite", website);
+
                   Provider.of<ContactProvider>(context, listen: false)
                       .setOfficialDetails(officeName, officeAddress, website);
                 } else if (currentStep == 3) {
@@ -97,6 +117,11 @@ class _AddContactState extends State<AddContact> {
                       .text; // Assuming you have a controller for personal notes
                   String officialNotes = officialNotesController
                       .text; // Assuming you have a controller for official notes
+
+                  SharedPreferences sppersonalNotes = await SharedPreferences.getInstance();
+                  sppersonalNotes.setString("personalNotes", personalNotes);
+                  SharedPreferences spofficialNotes = await SharedPreferences.getInstance();
+                  spofficialNotes.setString("officialNotes", officialNotes);
 
                   Provider.of<ContactProvider>(context, listen: false)
                       .setNotes(personalNotes, officialNotes);

@@ -5,6 +5,7 @@ import 'dart:ui';
 
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class SignUp extends StatefulWidget {
   const SignUp({Key? key});
@@ -148,7 +149,7 @@ class _SignInState extends State<SignUp> {
                       backgroundColor:
                           MaterialStatePropertyAll(CupertinoColors.link),
                     ),
-                    onPressed: () {
+                    onPressed: () async{
                       String userName = UserNameController.text;
                       String mobileNo = UserMobileNoController.text;
                       String pin = UserPinController.text;
@@ -161,24 +162,19 @@ class _SignInState extends State<SignUp> {
                           ),
                         );
                       } else {
-                        int mobileNoInt =
-                            int.tryParse(mobileNo) ?? 0; // Handle invalid input
+                         // Handle invalid input
                         Provider.of<SignUpProvider>(context, listen: false)
-                            .setUserDetails(userName, mobileNoInt, pin);
+                            .setUserDetails(userName, mobileNo, pin);
+
+                        //Store the data in SharedPrefrence
+                        SharedPreferences sharedUser = await SharedPreferences.getInstance();
+                        sharedUser.setString("userName", userName);
+                        SharedPreferences sharedMobileNo = await SharedPreferences.getInstance();
+                        sharedMobileNo.setString("mobileNo", mobileNo);
+                        SharedPreferences sharedPin = await SharedPreferences.getInstance();
+                        sharedPin.setString("pin", pin);
                         Navigator.pushReplacementNamed(context, "SignIn");
                       }
-
-                      // // var intVal = int.tryParse(text);
-                      // String userName = UserNameController.text;
-                      //
-                      // String MobileNo = UserMobileNoController.text;
-                      // int mobileNo = int.parse(MobileNo).toInt();
-                      //
-                      // String Pin = UserPinController.text;
-                      //
-                      // Provider.of<SignUpProvider>(context, listen: false)
-                      //     .setUserDetails(userName, mobileNo, Pin);
-                      // // Navigator.pushNamed(context, "HomePage");
                     },
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,

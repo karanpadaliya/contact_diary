@@ -21,6 +21,12 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   @override
+  void initState() {
+    _getSignUpDetails();
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: _appBar(),
@@ -191,7 +197,8 @@ class _HomePageState extends State<HomePage> {
                   Navigator.pushNamed(
                     context,
                     'ViewContact',
-                    arguments: value.contactList[index], // Pass the data of the tapped list item
+                    arguments: value.contactList[
+                        index], // Pass the data of the tapped list item
                   );
                 },
                 child: ListTile(
@@ -341,5 +348,75 @@ class _HomePageState extends State<HomePage> {
         Navigator.pushNamed(context, "AddContact");
       },
     );
+  }
+
+  void _getSignUpDetails() async {
+    var setUser = await SharedPreferences.getInstance();
+    var setMobileNo = await SharedPreferences.getInstance();
+    var setPin = await SharedPreferences.getInstance();
+    var getName = setUser.getString("userName");
+    var getMobileNo = setMobileNo.getString("mobileNo");
+    var getPin = setPin.getString("pin");
+
+    String userName = getName ?? "Not_Get_UserName";
+    String mobileNo = getMobileNo ?? "Not_Get_MobileNo";
+    String pin = getPin ?? "Not_Get_Pin";
+    Provider.of<SignUpProvider>(context, listen: false)
+        .setUserDetails(userName, mobileNo, pin);
+
+    // Name / Email /MobileNo
+    var setContactName = await SharedPreferences.getInstance();
+    var getContactName = setContactName.getString("ContactName");
+    String ContactName = getContactName ?? "getContactName_notFound";
+
+    var setContactEmail = await SharedPreferences.getInstance();
+    var getContactEmail = setContactEmail.getString("ContactEmail");
+    String ContactEmail = getContactEmail ?? "getContactEmail_notFound";
+
+    var setContactMobileNo = await SharedPreferences.getInstance();
+    var getContactMobileNo = setContactMobileNo.getString("ContactMobileNo");
+    String ContactMobileNo =
+        getContactMobileNo ?? "getContactMobileNo_notFound";
+    Provider.of<ContactProvider>(context, listen: false)
+        .setContactDetails(ContactName, ContactEmail, ContactMobileNo);
+
+    // Birthdate / Address
+    var setContactBirthdate = await SharedPreferences.getInstance();
+    var getContactBirthdate = setContactBirthdate.getString("ContactBirthdate");
+    String ContactBirthdate =
+        getContactBirthdate ?? "ContactBirthdate_notFound";
+
+    var setContactAddress = await SharedPreferences.getInstance();
+    var getContactAddress = setContactAddress.getString("ContactAddress");
+    String ContactAddress = getContactAddress ?? "ContactAddress_notFound";
+    Provider.of<ContactProvider>(context)
+        .setPersonalDetails(ContactBirthdate, ContactAddress);
+
+    //   OfficeName / OfficeAddress / website
+    var setOfficeName = await SharedPreferences.getInstance();
+    var getOfficeName = setOfficeName.getString("OfficeName");
+    String OfficeName = getOfficeName ?? "OfficeName_notFound";
+
+    var setOfficeAddress = await SharedPreferences.getInstance();
+    var getOfficeAddress = setOfficeAddress.getString("OfficeAddress");
+    String OfficeAddress = getOfficeAddress ?? "OfficeAddress_notFound";
+
+    var setOfficeWebsite = await SharedPreferences.getInstance();
+    var getOfficeWebsite = setOfficeWebsite.getString("OfficeWebsite");
+    String OfficeWebsite = getOfficeWebsite ?? "OfficeWebsite_notFound";
+
+    Provider.of<ContactProvider>(context)
+        .setOfficialDetails(OfficeName, OfficeAddress, OfficeWebsite);
+
+    //   PersonalNote / OfficialNote
+    var setPersonalNote = await SharedPreferences.getInstance();
+    var getPersonalNote = setPersonalNote.getString("personalNotes");
+    String PersonalNote = getPersonalNote ?? "PersonalNote_notFound";
+
+    var setOfficialNote = await SharedPreferences.getInstance();
+    var getOfficialNote = setOfficialNote.getString("officialNotes");
+    String OfficialNote = getOfficialNote ?? "OfficialNote_notFound";
+
+    Provider.of<ContactProvider>(context).setNotes(PersonalNote, OfficialNote);
   }
 }

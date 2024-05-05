@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 
 class SignUpProvider extends ChangeNotifier {
   String? userName;
-  int? userMobileNo;
+  String? userMobileNo;
   String? userPin;
 
-  void setUserDetails(String name, int mobile, String pin) {
+  void setUserDetails(String name, String mobile, String pin) {
     userName = name;
     userMobileNo = mobile;
     userPin = pin;
@@ -17,7 +17,7 @@ class SignUpProvider extends ChangeNotifier {
     notifyListeners(); // Notify listeners of the change
   }
 
-  void setMobileNo(int mobileNo) {
+  void setMobileNo(String mobileNo) {
     userMobileNo = mobileNo;
     notifyListeners(); // Notify listeners of the change
   }
