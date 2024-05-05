@@ -54,7 +54,8 @@ class _AddContactState extends State<AddContact> {
 
       contactNameController.text = contact.Contact_name ?? "Not available";
       contactEmailController.text = contact.Contact_email ?? "Not available";
-      contactMobileNoController.text = contact.Contact_mobileNo ?? "Not available";
+      contactMobileNoController.text =
+          contact.Contact_mobileNo ?? "Not available";
       birthDateController.text = contact.birthdate ?? "Not available";
       addressController.text = contact.Contact_address ?? "Not available";
       officeNameController.text = contact.Office_name ?? "Not available";
@@ -71,7 +72,8 @@ class _AddContactState extends State<AddContact> {
       appBar: AppBar(
         backgroundColor: CupertinoColors.link,
         foregroundColor: CupertinoColors.white,
-        title: Text(widget.contactModel != null ? "Edit Contact" : "Add Contact"),
+        title:
+            Text(widget.contactModel != null ? "Edit Contact" : "Add Contact"),
       ),
       body: SingleChildScrollView(
         physics: BouncingScrollPhysics(),
@@ -79,14 +81,11 @@ class _AddContactState extends State<AddContact> {
           children: [
             Container(
               height: 200,
-              color: Colors.blueAccent,
+              width: 411,
+              color: CupertinoColors.link.withOpacity(0.1),
               child: Consumer<ContactProvider>(
                 builder: (BuildContext context, value, Widget? child) {
-                  return Column(
-                    children: [
-                      Text(""),
-                    ],
-                  );
+                  return Center(child: Text("Comming Soon!!"));
                 },
               ),
             ),
@@ -94,18 +93,16 @@ class _AddContactState extends State<AddContact> {
               type: StepperType.vertical,
               steps: getSteps(),
               currentStep: currentStep,
-              onStepContinue: () async{
+              onStepContinue: () async {
                 if (currentStep == 0) {
                   String name = contactNameController.text;
                   String email = contactEmailController.text;
                   String mobileNo = contactMobileNoController.text;
 
-                  SharedPreferences spName = await SharedPreferences.getInstance();
-                  spName.setString("ContactName", name);
-                  SharedPreferences spEmail = await SharedPreferences.getInstance();
-                  spEmail.setString("ContactEmail", email);
-                  SharedPreferences spMobileNo = await SharedPreferences.getInstance();
-                  spMobileNo.setString("ContactMobileNo", mobileNo);
+                  SharedPreferences sp = await SharedPreferences.getInstance();
+                  sp.setString("ContactName", name);
+                  sp.setString("ContactEmail", email);
+                  sp.setString("ContactMobileNo", mobileNo);
 
                   Provider.of<ContactProvider>(context, listen: false)
                       .setContactDetails(name, email, mobileNo);
@@ -113,37 +110,31 @@ class _AddContactState extends State<AddContact> {
                   String birthDate = birthDateController.text;
                   String address = addressController.text;
 
-                  SharedPreferences spContactBirthdate = await SharedPreferences.getInstance();
-                  spContactBirthdate.setString("ContactBirthdate", birthDate);
-                  SharedPreferences spContactAddress = await SharedPreferences.getInstance();
-                  spContactAddress.setString("ContactAddress", address);
+                  SharedPreferences sp = await SharedPreferences.getInstance();
+                  sp.setString("ContactBirthdate", birthDate);
+                  sp.setString("ContactAddress", address);
 
                   Provider.of<ContactProvider>(context, listen: false)
                       .setPersonalDetails(birthDate, address);
                 } else if (currentStep == 2) {
-                  String? officeName = officeNameController.text;
-                  String? officeAddress = officeAddressController.text;
-                  String? website = websiteController.text;
+                  String officeName = officeNameController.text;
+                  String officeAddress = officeAddressController.text;
+                  String website = websiteController.text;
 
-                  SharedPreferences spOfficeName = await SharedPreferences.getInstance();
-                  spOfficeName.setString("OfficeName", officeName);
-                  SharedPreferences spOfficeAddress = await SharedPreferences.getInstance();
-                  spOfficeAddress.setString("OfficeAddress", officeAddress);
-                  SharedPreferences spOfficeWebsite = await SharedPreferences.getInstance();
-                  spOfficeWebsite.setString("OfficeWebsite", website);
+                  SharedPreferences sp = await SharedPreferences.getInstance();
+                  sp.setString("OfficeName", officeName);
+                  sp.setString("OfficeAddress", officeAddress);
+                  sp.setString("OfficeWebsite", website);
 
                   Provider.of<ContactProvider>(context, listen: false)
                       .setOfficialDetails(officeName, officeAddress, website);
                 } else if (currentStep == 3) {
-                  String personalNotes = personalNotesController
-                      .text; // Assuming you have a controller for personal notes
-                  String officialNotes = officialNotesController
-                      .text; // Assuming you have a controller for official notes
+                  String personalNotes = personalNotesController.text;
+                  String officialNotes = officialNotesController.text;
 
-                  SharedPreferences sppersonalNotes = await SharedPreferences.getInstance();
-                  sppersonalNotes.setString("personalNotes", personalNotes);
-                  SharedPreferences spofficialNotes = await SharedPreferences.getInstance();
-                  spofficialNotes.setString("officialNotes", officialNotes);
+                  SharedPreferences sp = await SharedPreferences.getInstance();
+                  sp.setString("PersonalNotes", personalNotes);
+                  sp.setString("OfficialNotes", officialNotes);
 
                   Provider.of<ContactProvider>(context, listen: false)
                       .setNotes(personalNotes, officialNotes);

@@ -203,7 +203,7 @@ class _SignInState extends State<SignIn> {
                                 var sharedPreference =
                                     await SharedPreferences.getInstance();
                                 await sharedPreference.setBool("isLogin", true);
-                                Navigator.pushNamed(context, "HomePage");
+                                Navigator.pushReplacementNamed(context, "HomePage");
                               } else {
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   SnackBar(

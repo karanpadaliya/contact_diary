@@ -1,9 +1,9 @@
 import 'package:contact_diary/DrawerPageScreen/ProfilePage.dart';
 import 'package:contact_diary/Provider/ContactProvider.dart';
 import 'package:contact_diary/Provider/SignUpProvider.dart';
-import 'package:contact_diary/Provider/ThemeProvider.dart';
 import 'package:contact_diary/screen/LoginPage/SignIn.dart';
 import 'package:contact_diary/screen/LoginPage/SignUp.dart';
+import 'package:contact_diary/screen/LoginPage/searchPage.dart';
 import 'package:contact_diary/screen/addContact.dart';
 import 'package:contact_diary/screen/homePage.dart';
 import 'package:contact_diary/screen/splashScreen.dart';
@@ -47,6 +47,7 @@ class _MainPageState extends State<MainPage> {
           "ProfilePage": (context) => ProfilePage(),
           "AddContact": (context) => AddContact(),
           "ViewContact": (context) => ViewContact(),
+          "SearchPage": (context) => SearchPage(),
         },
         onUnknownRoute: (settings) {
           return MaterialPageRoute(
