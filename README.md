@@ -46,9 +46,6 @@
 </ul>
 
 <p>The Contact Diary application seamlessly combines intuitive design with robust functionality, providing users with a comprehensive solution for efficient contact management and communication.</p>
-
-![HomePage_PopupMenu](https://github.com/karanpadaliya/contact_diary/assets/72498188/e0d4903e-73fa-44f0-8d20-f4030cf9a44c)
-
-
+ <img src="https://github.com/karanpadaliya/contact_diary/assets/72498188/7e8fb919-43d4-4609-87c5-36e7da225b89" alt="SplashScreen" style="width: 250px; height: 500px;"> <img src="https://github.com/karanpadaliya/contact_diary/assets/72498188/ed1b5084-9d12-4224-b26a-09b7e473e14f" alt="SignUpPage" style="width: 250px; height: 500px;"> <img src="https://github.com/karanpadaliya/contact_diary/assets/72498188/39eee719-b196-4fc3-ab0a-a4ac4fe3109f" alt="LoginPage" style="width: 250px; height: 500px;"> <img src="https://github.com/karanpadaliya/contact_diary/assets/72498188/a698a819-22d7-44b2-8010-afe2bae5a75f" alt="HomePage_WithoutDetails" style="width: 250px; height: 500px;"> <img src="https://github.com/karanpadaliya/contact_diary/assets/72498188/06beec06-d599-45e1-be40-51fc4a5ca271" alt="HomePage_PopupMenu" style="width: 250px; height: 500px;"> <img src="https://github.com/karanpadaliya/contact_diary/assets/72498188/95b22a59-3e8d-422b-9873-cca61ec74655" alt="HomePage_WithDetails" style="width: 250px; height: 500px;"> <img src="https://github.com/karanpadaliya/contact_diary/assets/72498188/cb5d03bd-06b2-44ce-8295-c48ef95b0cce" alt="EditContact" style="width: 250px; height: 500px;"> <img src="https://github.com/karanpadaliya/contact_diary/assets/72498188/890cfe02-7899-4832-a2e0-d700180fde46" alt="AddContactPage" style="width: 250px; height: 500px;"> <img src="https://github.com/karanpadaliya/contact_diary/assets/72498188/07aa2368-c5f2-485b-b90e-02c61ea82654" alt="ViewContactPage" style="width: 250px; height: 500px;">
 </body>
 </html>
