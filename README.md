@@ -47,5 +47,8 @@
 
 <p>The Contact Diary application seamlessly combines intuitive design with robust functionality, providing users with a comprehensive solution for efficient contact management and communication.</p>
 
+![HomePage_PopupMenu](https://github.com/karanpadaliya/contact_diary/assets/72498188/e0d4903e-73fa-44f0-8d20-f4030cf9a44c)
+
+
 </body>
 </html>
