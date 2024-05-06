@@ -66,6 +66,21 @@ class ContactProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  // void updateContact(
+  //   String name,
+  //   String email,
+  //   String mobileNo,
+  //   String birthdate,
+  //   String? address,
+  //   String? officeName,
+  //   String? officeAddress,
+  //   String? website,
+  //   String? personalNote,
+  //   String? officialNote,
+  // ) {
+  //
+  // }
+
   void editContact(
     int index,
     String name,

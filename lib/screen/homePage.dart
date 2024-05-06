@@ -291,8 +291,7 @@ class _HomePageState extends State<HomePage> {
                   Navigator.pushNamed(
                     context,
                     'ViewContact',
-                    arguments: value.contactList[
-                        index], // Pass the data of the tapped list item
+                    arguments: value.contactList[index],
                   );
                 },
                 child: ListTile(

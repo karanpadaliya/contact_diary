@@ -30,22 +30,7 @@ class _AddContactState extends State<AddContact> {
   TextEditingController officialNotesController = TextEditingController();
 
   int currentStep = 0;
-
-  // @override
-  // void didChangeDependencies() {
-  //   super.didChangeDependencies();
-  //   if (widget.index != null) {
-  //     var contact = Provider.of<ContactProvider>(context, listen: false).contactList[widget.index!];
-  //     var contactName = contact.Contact_name ??
-  //         "Contact_name_NotFound";
-  //     contactNameController.text = contactName;
-  //
-  //     var ContactEmail = contact.Contact_email ??
-  //         "Contact_Email_NotFound";
-  //     contactNameController.text = ContactEmail;
-  //   }
-  // }
-
+  
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
@@ -136,9 +121,29 @@ class _AddContactState extends State<AddContact> {
                   sp.setString("PersonalNotes", personalNotes);
                   sp.setString("OfficialNotes", officialNotes);
 
-                  Provider.of<ContactProvider>(context, listen: false)
-                      .setNotes(personalNotes, officialNotes);
-                  Navigator.pop(context);
+                  print("widget.contactModel != null ====>>>>${widget.contactModel != null}");
+                  if (widget.contactModel != null) {
+                    Provider.of<ContactProvider>(context, listen: false)
+                        .editContact(
+                      widget.index??0,
+                      contactNameController.text,
+                      contactEmailController.text,
+                      contactMobileNoController.text,
+                      birthDateController.text,
+                      addressController.text,
+                      officeNameController.text,
+                      officeAddressController.text,
+                      websiteController.text,
+                      personalNotesController.text,
+                      officialNotesController.text,
+                    );
+                    Navigator.pop(context);
+                  } else {
+                    Provider.of<ContactProvider>(context, listen: false)
+                        .setNotes(personalNotes, officialNotes);
+                    Navigator.pop(context);
+                  }
+                  // Navigator.pop(context);
                 }
 
                 if (currentStep < 3) {
